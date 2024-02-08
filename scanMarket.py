@@ -4,7 +4,6 @@ import requests
 
 def get_item_details(item_id, region="na", lang="en"):
     api_url = f"https://api.arsha.io/v2/{region}/item"
-
     # Request parameters
     params = {
         "id": item_id,
@@ -14,14 +13,12 @@ def get_item_details(item_id, region="na", lang="en"):
     try:
         # Make the API request
         response = requests.get(api_url, params=params)
-
-        # Check if the request was successful (status code 200)
-        if response.status_code == 200:
-            # Parse the response JSON
-            result = response.json()
-
-            # Return the item name and icon
-            return result[0]["name"], result[0]["lastSoldPrice"]
+        
+        if response.status_code == 200: # Check if the request was successful (status code 200)
+            
+            result = response.json() # Parse the response JSON
+           
+            return result[0]["name"], result[0]["lastSoldPrice"]  # Return the item name and lastSoldPrice
         else:
             # print(f"Error: {response.status_code} - {response.text}")
             return None, None
@@ -42,12 +39,10 @@ def get_market_prices(region, main_category, sub_category):
     try:
         # Make the API request
         response = requests.get(api_url, params=params)
-
         # Check if the request was successful (status code 200)
         if response.status_code == 200:
             # Parse the response JSON
             result = response.json()
-
             # Process and display the prices with item names and last sold price
             process_prices(result)
         else:
@@ -68,14 +63,14 @@ def process_prices(result):
         item_name, last_sold_price = get_item_details(item_id)
 
         # Display information with item name and last sold price
-        if(item_name != None):
+        if(item_name != None): #Ignore items that dont have an ID
             print(f"Item Name: {item_name}, ID: {item_id}, Stock: {current_stock}, Trades: {total_trades}, Base Price: {base_price}, Last Sold Price: {last_sold_price}")
 
 # Execute the program
-
+reg="na"
+reg = input("Enter your region (NA): ").lower()
 mc = input("Enter the main category: ")
 sc = ""
 sc = input("Enter the sub category: (hit enter for n/a): ")
-reg="na"
 
 get_market_prices(reg, mc, sc)
