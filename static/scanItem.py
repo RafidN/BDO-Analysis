@@ -1,6 +1,5 @@
 import requests
 
-
 def get_item_prices(item_id, region="na"):
     api_url = f"https://api.arsha.io/v2/{region}/item"
 
